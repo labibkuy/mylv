@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Untuk Cintaku ❤️</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#ff6b9d',
+            dark: '#1a1a2e',
+            pinkglow: '#ff7aa2',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap');
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+    }
+
+    .love-text {
+      position: absolute;
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(0.85rem, 2.8vw, 1.3rem); /* sedikit lebih besar */
+      opacity: 0.94;
+      pointer-events: none;
+      text-shadow: 0 0 10px rgba(255, 107, 157, 0.9);
+      white-space: nowrap;
+      z-index: 5;
+    }
+
+    .center-photo {
+      width: clamp(110px, 28vw, 170px);
+      height: clamp(110px, 28vw, 170px);
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #ff6b9d;
+      box-shadow: 0 0 25px rgba(255, 107, 157, 0.8);
+      z-index: 10;
+    }
+
+    .title {
+      font-family: 'Dancing Script', cursive;
+      font-size: clamp(1.6rem, 4.8vw, 2.4rem);
+      text-align: center;
+      color: #ff7aa2;
+      text-shadow: 0 0 12px rgba(255, 122, 162, 0.8);
+      position: absolute;
+      top: 12px;
+      left: 0;
+      right: 0;
+      z-index: 20;
+      margin: 0;
+      padding: 0 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 class="title">Hanya Untukmu, Sayang ❤️</h1>
+
+  <!-- Foto benar-benar di tengah — TANPA offset apapun -->
+  <img id="centerPhoto" class="center-photo me-[-5%]" src="loveku.jpg" alt="Cintaku">
+
+  <script>
+    // Konfigurasi dasar — DIPERBESAR!
+    let count = 28;
+    let scale = 12; // ← Diperbesar dari 9 ke 12
+
+    if (window.innerWidth < 640) {
+      count = 22;
+      scale = 10; // ← Diperbesar dari 7 ke 10
+    }
+
+    const texts = [];
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement('div');
+      el.className = 'love-text';
+      el.textContent = 'I Love You';
+      document.body.appendChild(el);
+      texts.push({ element: el, index: i });
+    }
+
+    let time = 0;
+    const speed = 0.007;
+
+    function animate() {
+      time += speed;
+
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight / 2;
+
+      // Sesuaikan offset agar hati tidak menutupi foto
+      const offsetY = window.innerWidth < 640 ? 20 : 40;
+
+      texts.forEach(({ element, index }) => {
+        const t = (index / count) * Math.PI * 2 + time;
+        const xHeart = 16 * Math.pow(Math.sin(t), 3);
+        const yHeart = -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+
+        const x = cx + xHeart * scale;
+        const y = cy + yHeart * scale - offsetY;
+
+        element.style.left = `${x}px`;
+        element.style.top = `${y}px`;
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    window.addEventListener('resize', () => {
+      // Tidak perlu recreate — animasi otomatis ikuti ukuran baru
+    });
+  </script>
+
+</body>
+</html>
